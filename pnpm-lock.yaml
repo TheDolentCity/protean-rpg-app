@@ -17,6 +17,9 @@ dependencies:
   socket.io-client:
     specifier: ^4.7.1
     version: 4.7.1
+  unique-names-generator:
+    specifier: ^4.7.1
+    version: 4.7.1
   valibot:
     specifier: ^0.3.0
     version: 0.3.0
@@ -2233,6 +2236,11 @@ packages:
     dependencies:
       busboy: 1.6.0
     dev: true
+
+  /unique-names-generator@4.7.1:
+    resolution: {integrity: sha512-lMx9dX+KRmG8sq6gulYYpKWZc9RlGsgBR6aoO8Qsm3qvkSJ+3rAymr+TnV8EDMrIrwuFJ4kruzMWM/OpYzPoow==}
+    engines: {node: '>=8'}
+    dev: false
 
   /update-browserslist-db@1.0.11(browserslist@4.21.9):
     resolution: {integrity: sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==}
