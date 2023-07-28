@@ -5,10 +5,13 @@
 @tailwind utilities;
 
 @layer utilities {
-  .text-focus {
-    @apply text-zinc-200;
-  }
-  .text-default {
-    @apply text-zinc-400;
-  }
+	.text-focus {
+		@apply text-zinc-200;
+	}
+	.text-default {
+		@apply text-zinc-400;
+	}
+	.mst {
+		@apply motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out;
+	}
 }

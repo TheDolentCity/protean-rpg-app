@@ -13,6 +13,7 @@
 		RoomCreatedEvent,
 		RoomNotFoundEvent
 	} from '$lib/types/socket-types';
+	import { validCreateRoom } from '$lib/validation/processors';
 
 	function handleErrorMessage(message: string) {
 		console.error(message);
@@ -29,6 +30,7 @@
 	function onRoomNotFound(event: RoomNotFoundEvent) {
 		console.debug(event);
 		if ($creatingRoom) {
+			$creatingRoom = false;
 			handleErrorMessage(event?.message);
 		}
 	}
@@ -36,6 +38,7 @@
 	function onInvalidData(event: InvalidDataEvent) {
 		console.debug(event);
 		if ($creatingRoom) {
+			$creatingRoom = false;
 			handleErrorMessage(event?.message);
 		}
 	}
@@ -61,7 +64,12 @@
 		};
 		const username: string = uniqueNamesGenerator(nameConfig);
 		const createRoomEvent: CreateRoomEvent = { roomId, username };
-		socket.emit('create-room', createRoomEvent);
+
+		if (validCreateRoom(createRoomEvent)) {
+			socket.emit('create-room', createRoomEvent);
+		} else {
+			$creatingRoom = false;
+		}
 	}
 </script>
 
@@ -70,7 +78,7 @@
 		type="submit"
 		title="Create a room"
 		disabled={$creatingRoom}
-		class="flex w-full h-10 px-3 items-center justify-center rounded font-medium text-zinc-900 bg-zinc-100"
+		class="flex w-full h-10 px-3 items-center justify-center rounded border border-zinc-100 font-medium text-zinc-900 bg-zinc-200 hover:bg-white mst"
 	>
 		{$creatingRoom ? 'Creating a room' : 'Create a room'}
 	</button>
