@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { socket } from '$lib/sockets/client';
+	import { goto } from '$app/navigation';
 	import { members } from '$lib/stores/members-store';
 	import { joiningRoom } from '$lib/stores/socket-store';
 	import { user } from '$lib/stores/user-store';
@@ -22,8 +22,8 @@
 		console.debug(event);
 		$user = event?.user;
 		$members = event?.members;
-		$joiningRoom = false;
 		goto(`/${event?.roomId}`);
+		$joiningRoom = false;
 	}
 
 	function onRoomNotFound(event: RoomNotFoundEvent) {
@@ -48,6 +48,9 @@
 		socket.on('invalid-data', onInvalidData);
 
 		return () => {
+			console.debug(`socket-off:room-joined:${socket.id}`);
+			console.debug(`socket-off:room-not-found:${socket.id}`);
+			console.debug(`socket-off:invalid-data:${socket.id}`);
 			socket.off('room-joined', onRoomJoined);
 			socket.off('room-not-found', onRoomNotFound);
 			socket.off('invalid-data', handleErrorMessage);

@@ -29,10 +29,15 @@ export const JoinRoomSchema = object({
   ]),
 });
 
-export const MessageSchema = object({
-  username: string([
-    minLength(2, "Username must be at least 2 characters"),
-    maxLength(32, "Username cannot be more than 32 characters."),
-  ]),
-  text: string([toTrimmed(), minLength(1, "Text cannot be empty.")]),
+export const CreateMessageSchema = object({
+  message: object({
+    text: string([
+      minLength(1, "Text must be at least 1 characters"),
+      maxLength(256, "Text cannot be more than 256 characters."),
+    ]),
+    createdBy: string([
+      minLength(2, "Created by must be at least 2 characters"),
+      maxLength(32, "Created by cannot be more than 32 characters."),
+    ]),
+  }),
 });

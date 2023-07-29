@@ -11,7 +11,8 @@
 	type="button"
 	class="p-1.5 rounded-lg text-zinc-300 bg-zinc-800 hover:bg-zinc-700"
 	melt={$trigger}
-	aria-label="User persona"
+	title="User"
+	aria-label="User"
 >
 	<UserProfile size={20} />
 </button>

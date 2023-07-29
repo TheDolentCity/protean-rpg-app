@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { socket } from '$lib/sockets/client';
 	import { members } from '$lib/stores/members-store';
 	import { creatingRoom } from '$lib/stores/socket-store';
 	import { user } from '$lib/stores/user-store';
@@ -14,6 +13,7 @@
 		RoomNotFoundEvent
 	} from '$lib/types/socket-types';
 	import { validCreateRoom } from '$lib/validation/processors';
+	import { socket } from '$lib/sockets/client';
 
 	function handleErrorMessage(message: string) {
 		console.error(message);
@@ -23,8 +23,8 @@
 		console.debug(event);
 		$user = event?.user;
 		$members = [event?.user];
-		$creatingRoom = false;
 		goto(`/${event?.roomId}`);
+		$creatingRoom = false;
 	}
 
 	function onRoomNotFound(event: RoomNotFoundEvent) {
@@ -49,6 +49,9 @@
 		socket.on('invalid-data', onInvalidData);
 
 		return () => {
+			console.debug(`socket-off:room-created:${socket.id}`);
+			console.debug(`socket-off:room-not-found:${socket.id}`);
+			console.debug(`socket-off:invalid-data:${socket.id}`);
 			socket.off('room-created', onRoomCreated);
 			socket.off('room-not-found', onRoomNotFound);
 			socket.off('invalid-data', handleErrorMessage);

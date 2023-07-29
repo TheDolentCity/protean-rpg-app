@@ -1,5 +1,5 @@
-import type { CreateRoomEvent, JoinRoomEvent } from '$lib/types/socket-types';
-import { CreateRoomSchema, JoinRoomSchema } from '$lib/validation/schemas';
+import type { CreateMessageEvent, CreateRoomEvent, JoinRoomEvent } from '$lib/types/socket-types';
+import { CreateMessageSchema, CreateRoomSchema, JoinRoomSchema } from '$lib/validation/schemas';
 
 import { ValiError } from 'valibot';
 
@@ -16,6 +16,16 @@ export function validCreateRoom(event: CreateRoomEvent) {
 export function validJoinRoom(event: JoinRoomEvent) {
 	try {
 		return JoinRoomSchema.parse(event);
+	} catch (error) {
+		if (error instanceof ValiError) {
+			console.debug(error);
+		}
+	}
+}
+
+export function validCreateMessage(event: CreateMessageEvent) {
+	try {
+		return CreateMessageSchema.parse(event);
 	} catch (error) {
 		if (error instanceof ValiError) {
 			console.debug(error);

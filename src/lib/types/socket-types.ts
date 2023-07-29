@@ -24,6 +24,16 @@ export interface UpdateMembersEvent {
 	members: User[];
 }
 
+export interface CreateMessageEvent {
+	roomId: string;
+	message: Message;
+}
+
+export interface MessageCreatedEvent {
+	roomId: string;
+	message: Message;
+}
+
 /** ERROR EVENTS */
 export interface InvalidDataEvent {
 	message: string;
@@ -42,7 +52,7 @@ export interface User {
 }
 
 export interface Message {
-	username: string;
 	text: string;
-	time: number;
+	createdBy: string;
+	createdAt: Date;
 }

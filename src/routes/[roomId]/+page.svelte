@@ -1,16 +1,13 @@
 <script lang="ts">
-	import Copy from 'carbon-icons-svelte/lib/Copy.svelte';
-	import Exit from 'carbon-icons-svelte/lib/Exit.svelte';
-	import Group from 'carbon-icons-svelte/lib/Group.svelte';
-	import UserProfile from 'carbon-icons-svelte/lib/UserProfile.svelte';
-	import { user } from '$lib/stores/user-store';
-	import { socket } from '$lib/sockets/client';
-	import { goto } from '$app/navigation';
+	import CreateMessageForm from './../../lib/components/messages/CreateMessageForm.svelte';
 	import { onMount } from 'svelte';
-	import UserPersona from '$lib/components/users/UserPersona.svelte';
-	import LeaveRoomButton from '$lib/components/rooms/LeaveRoomButton.svelte';
+	import { goto } from '$app/navigation';
+	import { user } from '$lib/stores/user-store';
 	import CopyRoomIdToClipboardButton from '$lib/components/rooms/CopyRoomIdToClipboardButton.svelte';
+	import LeaveRoomButton from '$lib/components/rooms/LeaveRoomButton.svelte';
 	import MembersPersona from '$lib/components/members/MembersPersona.svelte';
+	import UserPersona from '$lib/components/users/UserPersona.svelte';
+	import Messages from '$lib/components/messages/Messages.svelte';
 
 	onMount(() => {
 		if (!$user) {
@@ -30,12 +27,7 @@
 		</div>
 	</header>
 	<main class="flex-auto w-full px-4 pb-4">
-		<!-- <div class="flex flex-col w-full h-full gap-3">
-			<div class="w-64 h-20 rounded-lg bg-zinc-900" />
-			<div class="w-64 h-20 rounded-lg bg-zinc-900" />
-			<div class="w-64 h-20 rounded-lg bg-zinc-900" />
-			<div class="w-64 h-20 rounded-lg bg-zinc-900" />
-			<div class="w-64 h-20 rounded-lg bg-zinc-900" />
-		</div> -->
+		<Messages />
+		<CreateMessageForm />
 	</main>
 </div>

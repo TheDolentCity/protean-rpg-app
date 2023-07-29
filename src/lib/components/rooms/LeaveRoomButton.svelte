@@ -14,7 +14,8 @@
 	});
 
 	function leave() {
-		socket.emit('leave-room');
+		socket?.emit('leave-room');
+		console.debug(`leave-room:${socket.id}`);
 		goto('/');
 	}
 </script>
