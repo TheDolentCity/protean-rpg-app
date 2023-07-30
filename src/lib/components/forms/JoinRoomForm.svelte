@@ -83,12 +83,12 @@
 		id="roomId"
 		name="roomId"
 		bind:value={roomId}
-		class="w-full h-10 px-3 items-center rounded border border-zinc-700 font-mono text-focus placeholder:text-default bg-inherit"
+		class="w-full h-10 px-3 items-center rounded-lg border border-zinc-700 font-mono text-focus placeholder:text-default bg-inherit"
 	/>
 
 	<button
 		title="Join a room"
-		class="flex w-full h-10 mt-4 px-3 items-center justify-center rounded font-medium border border-zinc-700 text-sm text-zinc-100 bg-inherit hover:bg-zinc-700 mst"
+		class="flex w-full h-10 mt-4 px-3 items-center justify-center rounded-lg font-medium border border-zinc-700 text-sm text-zinc-100 bg-inherit hover:bg-zinc-700 mst"
 	>
 		Join a room
 	</button>

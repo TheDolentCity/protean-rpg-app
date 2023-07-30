@@ -81,7 +81,7 @@
 		type="submit"
 		title="Create a room"
 		disabled={$creatingRoom}
-		class="flex w-full h-10 px-3 items-center justify-center rounded border border-zinc-100 font-medium text-zinc-900 bg-zinc-200 hover:bg-white mst"
+		class="flex w-full h-10 px-3 items-center justify-center rounded-lg border border-zinc-100 font-medium text-zinc-900 bg-zinc-200 hover:bg-white mst"
 	>
 		{$creatingRoom ? 'Creating a room' : 'Create a room'}
 	</button>

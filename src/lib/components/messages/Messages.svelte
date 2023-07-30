@@ -21,12 +21,13 @@
 
 <div
 	bind:this={container}
-	class="flex-auto flex flex-col w-full pr-2 rounded-b-lg overflow-y-scroll"
+	class="flex-auto flex flex-col w-full pr-2 rounded-b-lg overflow-y-scroll overscroll-none"
 >
 	{#if $messages}
 		{#each $messages as message, i}
 			<Message
 				text={message?.text}
+				color={message?.color}
 				createdAt={message?.createdAt}
 				createdBy={message?.createdBy}
 				starting={i - 1 < 0 ||

@@ -58,6 +58,7 @@
 			roomId: $user?.roomId ?? 'Invalid room',
 			message: {
 				text,
+				color: $user?.color ?? '#333333',
 				createdAt: new Date(),
 				createdBy: $user?.username ?? 'Unknown user'
 			}
@@ -73,7 +74,6 @@
 		message = '';
 	}
 
-	let formElement: HTMLFormElement;
 	let message: string = '';
 </script>
 

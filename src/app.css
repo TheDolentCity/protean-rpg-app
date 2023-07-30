@@ -10,6 +10,21 @@
 	}
 }
 
+@layer components {
+	.color-swatch {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		@apply w-full h-11 border-none bg-transparent cursor-pointer;
+	}
+	.color-swatch::-webkit-color-swatch {
+		@apply border-none rounded-lg;
+	}
+	.color-swatch::-moz-color-swatch {
+		@apply border-none rounded-lg;
+	}
+}
+
 @layer utilities {
 	.text-focus {
 		@apply text-zinc-200;

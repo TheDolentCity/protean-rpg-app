@@ -23,7 +23,7 @@
 	on:click={copyRoomIdToClipboard}
 	melt={$trigger}
 	aria-label="Copy Room ID"
-	class="flex gap-3 px-3 py-2 items-center justify-center rounded-lg text-sm font-mono text-zinc-300 hover:text-white bg-zinc-800 hover:bg-zinc-700 mst"
+	class="grow sm:grow-0 flex order-last sm:order-none h-8 gap-3 px-3 items-center justify-center rounded-lg border border-dashed border-zinc-500 text-sm font-mono text-zinc-300 hover:text-white bg-zinc-950 hover:bg-zinc-800 mst"
 >
 	<span>{$user?.roomId}</span>
 	<Copy size={16} />

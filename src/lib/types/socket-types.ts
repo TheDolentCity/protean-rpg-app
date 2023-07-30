@@ -20,10 +20,6 @@ export interface RoomJoinedEvent {
 	members: User[];
 }
 
-export interface UpdateMembersEvent {
-	members: User[];
-}
-
 export interface CreateMessageEvent {
 	roomId: string;
 	message: Message;
@@ -32,6 +28,24 @@ export interface CreateMessageEvent {
 export interface MessageCreatedEvent {
 	roomId: string;
 	message: Message;
+}
+
+export interface UpdateUserEvent {
+	id: string;
+	roomId: string;
+	username: string;
+	color: string;
+}
+
+export interface UserUpdatedEvent {
+	id: string;
+	roomId: string;
+	username: string;
+	color: string;
+}
+
+export interface UpdateMembersEvent {
+	members: User[];
 }
 
 /** ERROR EVENTS */
@@ -47,11 +61,13 @@ export interface RoomNotFoundEvent {
 /** MODELS */
 export interface User {
 	id: string;
-	username: string;
 	roomId: string;
+	username: string;
+	color: string;
 }
 
 export interface Message {
+	color: string;
 	text: string;
 	createdBy: string;
 	createdAt: Date;
