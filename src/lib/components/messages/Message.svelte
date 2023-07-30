@@ -9,10 +9,10 @@
 	export let ending: boolean = false;
 
 	$: contentCss = new CssBuilder()
-		.addClass('px-3 text-base bg-zinc-900')
+		.addClass('px-3 [overflow-anchor:none] text-base bg-zinc-900')
 		.addClass('py-0.5', !starting && !ending)
-		.addClass('pt-2 rounded-t-lg', starting)
-		.addClass('pb-2 rounded-b-lg', ending)
+		.addClass('pt-2 pb-0.5 rounded-t-lg', starting)
+		.addClass('pt-0.5 pb-2 rounded-b-lg', ending)
 		.build();
 </script>
 
@@ -23,5 +23,5 @@
 	</span>
 {/if}
 <div class={contentCss}>
-	<p class="text-focus">{text}</p>
+	<p class="text-focus whitespace-pre-line">{text}</p>
 </div>

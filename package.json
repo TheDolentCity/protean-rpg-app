@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@dice-roller/rpg-dice-roller": "^5.4.1",
 		"@fontsource-variable/inter": "^5.0.5",
 		"@melt-ui/svelte": "^0.27.0",
 		"@types/node": "^20.4.5",

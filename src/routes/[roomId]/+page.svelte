@@ -20,7 +20,7 @@
 	class="flex flex-col w-screen h-[100svh] items-center justify-center text-default bg-zinc-950"
 	style:colorScheme="dark"
 >
-	<header class="flex w-full gap-3 px-4 py-4 items-center justify-between">
+	<header class="flex w-full gap-3 px-8 py-4 items-center justify-between">
 		<h1 class="text-2xl font-semibold tracking-tight text-focus">Protean</h1>
 		<CopyRoomIdToClipboardButton />
 		<div class="flex gap-2 items-center">
@@ -29,7 +29,7 @@
 			<UserPersona />
 		</div>
 	</header>
-	<main class="relative flex-auto flex flex-col w-full max-w-xl gap-4 px-4 pb-4 overflow-hidden">
+	<main class="relative flex-auto flex flex-col w-full max-w-xl gap-4 px-4 pb-8 overflow-hidden">
 		<Messages />
 		<CreateMessageForm />
 	</main>

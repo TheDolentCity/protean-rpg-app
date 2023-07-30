@@ -1,18 +1,11 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { members } from '$lib/stores/members-store';
-	import { creatingRoom } from '$lib/stores/socket-store';
+	import { DiceRoll } from '@dice-roller/rpg-dice-roller';
 	import { user } from '$lib/stores/user-store';
-	import { nanoid } from 'nanoid';
 	import { onMount } from 'svelte';
-	import { uniqueNamesGenerator, adjectives, animals, type Config } from 'unique-names-generator';
 	import type {
 		CreateMessageEvent,
-		CreateRoomEvent,
 		InvalidDataEvent,
-		MessageCreatedEvent,
-		RoomCreatedEvent,
-		RoomNotFoundEvent
+		MessageCreatedEvent
 	} from '$lib/types/socket-types';
 	import { validCreateMessage, validCreateRoom } from '$lib/validation/processors';
 	import { socket } from '$lib/sockets/client';
@@ -30,10 +23,7 @@
 
 	function onInvalidData(event: InvalidDataEvent) {
 		console.debug(event);
-		if ($creatingRoom) {
-			$creatingRoom = false;
-			handleErrorMessage(event?.message);
-		}
+		handleErrorMessage(event?.message);
 	}
 
 	onMount(() => {
@@ -48,11 +38,26 @@
 		};
 	});
 
+	function submitOnEnter(e: KeyboardEvent) {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault();
+			submit();
+		}
+	}
+
 	function submit() {
+		let text = message;
+
+		try {
+			text = new DiceRoll(text).output;
+		} catch (error) {
+			console.debug(`Text '${text}' was not a valid dice roll.`);
+		}
+
 		const createMessageEvent: CreateMessageEvent = {
 			roomId: $user?.roomId ?? 'Invalid room',
 			message: {
-				text: message,
+				text,
 				createdAt: new Date(),
 				createdBy: $user?.username ?? 'Unknown user'
 			}
@@ -60,21 +65,26 @@
 
 		if (validCreateMessage(createMessageEvent)) {
 			socket.emit('create-message', createMessageEvent);
+		} else {
+			console.debug('INVALID MESSAGE');
+			console.debug(createMessageEvent);
 		}
 
 		message = '';
 	}
 
+	let formElement: HTMLFormElement;
 	let message: string = '';
 </script>
 
-<form on:submit|preventDefault={submit} class="flex-none text-sm">
-	<input
-		type="text"
+<form class="flex-none pr-2 text-sm">
+	<textarea
+		rows={3}
 		id="message"
 		name="message"
 		placeholder="Send a message"
 		bind:value={message}
-		class="w-full h-10 px-3 items-center rounded border border-zinc-900 font-mono text-focus placeholder:text-default bg-zinc-900 focus:outline-none focus:bg-zinc-800"
+		on:keypress={submitOnEnter}
+		class="w-full px-3 py-2 items-center rounded-lg text-focus bg-zinc-900 resize-none placeholder:text-zinc-500 focus:outline-none focus:bg-zinc-800"
 	/>
 </form>

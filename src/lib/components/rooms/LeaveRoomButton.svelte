@@ -4,6 +4,9 @@
 	import { createTooltip } from '@melt-ui/svelte';
 	import { Exit } from 'carbon-icons-svelte';
 	import { fade } from 'svelte/transition';
+	import { members } from '$lib/stores/members-store';
+	import { messages } from '$lib/stores/messages-store';
+	import { user } from '$lib/stores/user-store';
 
 	const { trigger, content, open, arrow } = createTooltip({
 		positioning: {
@@ -14,6 +17,9 @@
 	});
 
 	function leave() {
+		$user = null;
+		$members = null;
+		$messages = null;
 		socket?.emit('leave-room');
 		console.debug(`leave-room:${socket.id}`);
 		goto('/');

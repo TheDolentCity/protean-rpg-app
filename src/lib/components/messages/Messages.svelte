@@ -1,20 +1,28 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { messages } from '$lib/stores/messages-store';
 	import Message from '$lib/components/messages/Message.svelte';
 
 	function messagesFarApart(earlierDate: Date, laterDate: Date): boolean {
-		console.log(earlierDate);
-		console.log(laterDate);
-		const differenceInMinutes = 3;
+		const differenceInMinutes = 5;
 		const differenceInMilliseconds = 60000 * differenceInMinutes;
-		let comparison = earlierDate.getUTCMilliseconds();
+		let comparison = earlierDate.getTime();
 		comparison += differenceInMilliseconds;
 
-		return laterDate.getUTCMilliseconds() > comparison;
+		return laterDate.getTime() > comparison;
 	}
+
+	let container: HTMLElement;
+
+	onMount(() => {
+		container.scrollTop = container.scrollHeight;
+	});
 </script>
 
-<div class="flex-auto flex flex-col w-full pr-2 overflow-y-scroll">
+<div
+	bind:this={container}
+	class="flex-auto flex flex-col w-full pr-2 rounded-b-lg overflow-y-scroll"
+>
 	{#if $messages}
 		{#each $messages as message, i}
 			<Message
@@ -24,9 +32,12 @@
 				starting={i - 1 < 0 ||
 					$messages[i - 1].createdBy !== message.createdBy ||
 					messagesFarApart($messages[i - 1].createdAt, message.createdAt)}
-				ending={i + 1 >= $messages.length || $messages[i + 1].createdBy !== message.createdBy}
+				ending={i + 1 >= $messages.length ||
+					$messages[i + 1].createdBy !== message.createdBy ||
+					messagesFarApart(message.createdAt, $messages[i + 1].createdAt)}
 			/>
 		{/each}
+		<hr class="h-px invisible [overflow-anchor:auto]" />
 	{:else}
 		<div
 			class="flex-auto flex px-20 py-10 items-center justify-center rounded-lg border border-dashed border-zinc-500"
