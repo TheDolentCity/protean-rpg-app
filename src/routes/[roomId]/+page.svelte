@@ -16,7 +16,10 @@
 	});
 </script>
 
-<div class="flex flex-col w-screen h-[100svh] items-center justify-center text-default bg-zinc-950">
+<div
+	class="flex flex-col w-screen h-[100svh] items-center justify-center text-default bg-zinc-950"
+	style:colorScheme="dark"
+>
 	<header class="flex w-full gap-3 px-4 py-4 items-center justify-between">
 		<h1 class="text-2xl font-semibold tracking-tight text-focus">Protean</h1>
 		<CopyRoomIdToClipboardButton />
@@ -26,7 +29,7 @@
 			<UserPersona />
 		</div>
 	</header>
-	<main class="flex-auto w-full px-4 pb-4">
+	<main class="relative flex-auto flex flex-col w-full max-w-xl gap-4 px-4 pb-4 overflow-hidden">
 		<Messages />
 		<CreateMessageForm />
 	</main>

@@ -24,6 +24,7 @@
 
 	function onMessageCreated(event: MessageCreatedEvent) {
 		console.debug(event);
+		event.message.createdAt = new Date(event.message.createdAt);
 		$messages = $messages ? [...$messages, event.message] : [event.message];
 	}
 
@@ -60,18 +61,20 @@
 		if (validCreateMessage(createMessageEvent)) {
 			socket.emit('create-message', createMessageEvent);
 		}
+
+		message = '';
 	}
 
 	let message: string = '';
 </script>
 
-<form on:submit={submit} class="text-sm">
-	<label for="message" class="block mb-1 font-semibold font-mono text-focus">New message</label>
+<form on:submit|preventDefault={submit} class="flex-none text-sm">
 	<input
 		type="text"
 		id="message"
 		name="message"
+		placeholder="Send a message"
 		bind:value={message}
-		class="w-full h-10 px-3 items-center rounded border border-zinc-700 font-mono text-focus placeholder:text-default bg-inherit"
+		class="w-full h-10 px-3 items-center rounded border border-zinc-900 font-mono text-focus placeholder:text-default bg-zinc-900 focus:outline-none focus:bg-zinc-800"
 	/>
 </form>
