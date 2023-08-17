@@ -24,7 +24,6 @@
 		$user = event?.user;
 		$members = [event?.user];
 		goto(`/${event?.roomId}`);
-		$creatingRoom = false;
 	}
 
 	function onRoomNotFound(event: RoomNotFoundEvent) {

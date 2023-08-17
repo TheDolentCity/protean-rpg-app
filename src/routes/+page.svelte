@@ -1,6 +1,12 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { requestingAppState } from '$lib/stores/socket-store';
 	import CreateRoomForm from '$lib/components/forms/CreateRoomForm.svelte';
 	import JoinRoomForm from '$lib/components/forms/JoinRoomForm.svelte';
+
+	onMount(() => {
+		$requestingAppState = false;
+	});
 </script>
 
 <div class="flex w-screen h-[100svh] p-8 items-center justify-center text-default bg-zinc-950">
