@@ -8,6 +8,7 @@
 	import { socket } from '$lib/sockets/client';
 	import { onMount } from 'svelte';
 	import { messages } from '$lib/stores/messages-store';
+	import { members } from '$lib/stores/members-store';
 
 	const { trigger, content, open, arrow, close } = createPopover();
 
@@ -22,13 +23,13 @@
 		if (validUpdateUser(updateUserEvent) && $user) {
 			console.log(updateUserEvent);
 
-			$messages?.forEach((message) => {
-				if (message && message.createdBy === $user?.username) {
-					message.createdBy = username;
-					message.color = color;
-				}
-			});
-			$messages = $messages;
+			const found = $members?.find((user) => user?.id && user.id === $user?.id);
+			if (found) {
+				found.username = username;
+				found.color = color;
+				$members = [...($members ?? [])];
+			}
+
 			$user.username = username;
 			$user.color = color;
 
