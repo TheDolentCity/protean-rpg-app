@@ -15,13 +15,21 @@
 	import type {
 		AppStatePreparedEvent,
 		AppStateRequestedEvent,
+		InvalidDataEvent,
 		MembersUpdatedEvent,
 		PrepareAppStateEvent,
 		RequestAppStateEvent,
 		UserUpdatedEvent
 	} from '$lib/types/socket-types';
 	import { validAppStatePrepared, validRequestAppState } from '$lib/validation/processors';
-	import Message from '$lib/components/messages/Message.svelte';
+
+	function userIsAdmin() {
+		return $members?.at(0)?.id == $user?.id;
+	}
+
+	function handleErrorMessage(message: string) {
+		console.error(message);
+	}
 
 	function requestAppState() {
 		$requestingAppState = true;
@@ -48,6 +56,11 @@
 	}
 
 	function prepareAppState(event: PrepareAppStateEvent) {
+		// Only admin needs to send state
+		if (!userIsAdmin()) {
+			return;
+		}
+
 		const appStatePreparedEvent: AppStatePreparedEvent = {
 			roomId: event.roomId,
 			userId: event.userId,
@@ -68,19 +81,25 @@
 	}
 
 	function onUserUpdated(event: UserUpdatedEvent) {
+		console.debug('onUserUpdated');
 		console.debug(event);
-		const index = $members?.findIndex((user) => user?.id && user.id === event.id);
-		if ($members && index && index >= 0) {
-			const membersCopy = $members;
-			membersCopy[index].username = event.username;
-			membersCopy[index].color = event.color;
-			$members = [...membersCopy];
+		const found = $members?.find((user) => user?.id && user.id === event?.id);
+		console.debug(found);
+		if (found) {
+			found.username = event?.username;
+			found.color = event?.color;
+			const copy = $members ?? [];
+			$members = [...copy];
 			console.log($members);
 		}
+	}
 
-		// $messages?.forEach(message => {
-		// 	if (message?.createdBy )
-		// });
+	function onInvalidData(event: InvalidDataEvent) {
+		console.debug(event);
+		$creatingRoom = $creatingRoom ? false : $creatingRoom;
+		$joiningRoom = $joiningRoom ? false : $joiningRoom;
+		$requestingAppState = $requestingAppState ? false : $requestingAppState;
+		handleErrorMessage(event?.message);
 	}
 
 	onMount(() => {
@@ -91,12 +110,13 @@
 			goto('/');
 		}
 
+		socket.on('prepare-app-state', prepareAppState);
 		socket.on('members-updated', onMembersUpdated);
 		socket.on('user-updated', onUserUpdated);
+		socket.on('invalid-data', onInvalidData);
 
 		// Listen to prepare app state if we are an admin user
-		if ($members?.at(0)?.id == $user?.id) {
-			socket.on('prepare-app-state', prepareAppState);
+		if (userIsAdmin()) {
 		}
 		// Request initial app state if we are not an admin user
 		else {
@@ -104,12 +124,14 @@
 		}
 
 		return () => {
-			console.debug(`socket-off:members-updated:${socket.id}`);
-			console.debug(`socket-off:user-updated:${socket.id}`);
-			console.debug(`prepare-app-state:user-updated:${socket.id}`);
+			socket.off('prepare-app-state', prepareAppState);
 			socket.off('members-updated', onMembersUpdated);
 			socket.off('user-updated', onUserUpdated);
-			socket.off('prepare-app-state', prepareAppState);
+			socket.off('invalid-data', onInvalidData);
+			console.debug(`socket-off:prepare-app-state:${socket.id}`);
+			console.debug(`socket-off:members-updated:${socket.id}`);
+			console.debug(`socket-off:user-updated:${socket.id}`);
+			console.debug(`socket-off:invalid-data:${socket.id}`);
 		};
 	});
 </script>

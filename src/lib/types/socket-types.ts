@@ -4,17 +4,16 @@
  * -----------------------------------------------------------------------
  */
 export interface User {
-	id: string;
-	roomId: string;
-	username: string;
-	color: string;
+  id: string;
+  roomId: string;
+  username: string;
+  color: string;
 }
 
 export interface Message {
-	color: string;
-	text: string;
-	createdBy: string;
-	createdAt: Date;
+  text: string;
+  createdBy: string; // User.ID
+  createdAt: Date;
 }
 
 /**
@@ -23,24 +22,24 @@ export interface Message {
  * -----------------------------------------------------------------------
  */
 export interface CreateRoomEvent {
-	roomId: string;
-	username: string;
+  roomId: string;
+  username: string;
 }
 
 export interface RoomCreatedEvent {
-	roomId: string;
-	user: User;
+  roomId: string;
+  user: User;
 }
 
 export interface JoinRoomEvent {
-	roomId: string;
-	username: string;
+  roomId: string;
+  username: string;
 }
 
 export interface RoomJoinedEvent {
-	roomId: string;
-	user: User;
-	members: User[];
+  roomId: string;
+  user: User;
+  members: User[];
 }
 
 /**
@@ -49,26 +48,26 @@ export interface RoomJoinedEvent {
  * -----------------------------------------------------------------------
  */
 export interface RequestAppStateEvent {
-	roomId: string;
-	userId: string;
+  roomId: string;
+  userId: string;
 }
 
 export interface PrepareAppStateEvent {
-	roomId: string;
-	userId: string;
+  roomId: string;
+  userId: string;
 }
 
 export interface AppStatePreparedEvent {
-	roomId: string;
-	userId: string;
-	members: User[];
-	messages: Message[];
+  roomId: string;
+  userId: string;
+  members: User[];
+  messages: Message[];
 }
 
 export interface AppStateRequestedEvent {
-	roomId: string;
-	members: User[];
-	messages: Message[];
+  roomId: string;
+  members: User[];
+  messages: Message[];
 }
 
 /**
@@ -77,13 +76,13 @@ export interface AppStateRequestedEvent {
  * -----------------------------------------------------------------------
  */
 export interface CreateMessageEvent {
-	roomId: string;
-	message: Message;
+  roomId: string;
+  message: Message;
 }
 
 export interface MessageCreatedEvent {
-	roomId: string;
-	message: Message;
+  roomId: string;
+  message: Message;
 }
 
 /**
@@ -92,21 +91,21 @@ export interface MessageCreatedEvent {
  * -----------------------------------------------------------------------
  */
 export interface UpdateUserEvent {
-	id: string;
-	roomId: string;
-	username: string;
-	color: string;
+  id: string;
+  roomId: string;
+  username: string;
+  color: string;
 }
 
 export interface UserUpdatedEvent {
-	id: string;
-	roomId: string;
-	username: string;
-	color: string;
+  id: string;
+  roomId: string;
+  username: string;
+  color: string;
 }
 
 export interface MembersUpdatedEvent {
-	members: User[];
+  members: User[];
 }
 
 /**
@@ -115,10 +114,10 @@ export interface MembersUpdatedEvent {
  * -----------------------------------------------------------------------
  */
 export interface InvalidDataEvent {
-	message: string;
+  message: string;
 }
 
 export interface RoomNotFoundEvent {
-	message: string;
-	roomId: string;
+  message: string;
+  roomId: string;
 }

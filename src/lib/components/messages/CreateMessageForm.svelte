@@ -58,9 +58,8 @@
 			roomId: $user?.roomId ?? 'Invalid room',
 			message: {
 				text,
-				color: $user?.color ?? '#333333',
 				createdAt: new Date(),
-				createdBy: $user?.username ?? 'Unknown user'
+				createdBy: $user?.id ?? 'Unknown'
 			}
 		};
 

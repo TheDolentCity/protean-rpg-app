@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { messages } from '$lib/stores/messages-store';
 	import Message from '$lib/components/messages/Message.svelte';
+	import { members } from '$lib/stores/members-store';
 
 	function messagesFarApart(earlierDate: Date, laterDate: Date): boolean {
 		const differenceInMinutes = 5;
@@ -23,13 +24,12 @@
 	bind:this={container}
 	class="flex-auto flex flex-col w-full pr-2 rounded-b-lg overflow-y-scroll overscroll-none"
 >
-	{#if $messages}
+	{#if $messages && $messages.length > 0}
 		{#each $messages as message, i}
 			<Message
 				text={message?.text}
-				color={message?.color}
-				createdAt={message?.createdAt}
 				createdBy={message?.createdBy}
+				createdAt={message?.createdAt}
 				starting={i - 1 < 0 ||
 					$messages[i - 1].createdBy !== message.createdBy ||
 					messagesFarApart($messages[i - 1].createdAt, message.createdAt)}
