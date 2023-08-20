@@ -17,6 +17,7 @@
 		AppStateRequestedEvent,
 		InvalidDataEvent,
 		MembersUpdatedEvent,
+		MessageCreatedEvent,
 		PrepareAppStateEvent,
 		RequestAppStateEvent,
 		UserUpdatedEvent
@@ -48,6 +49,9 @@
 		console.debug(event);
 		$members = event.members;
 		$messages = event.messages;
+		for (let i = 0; i < $messages.length; i++) {
+			$messages[i].createdAt = new Date($messages[i].createdAt);
+		}
 
 		console.debug(`socket-off:app-state-requested:${socket.id}`);
 		socket.off('app-state-requested', onAppStateRequested);
@@ -73,6 +77,12 @@
 		if (validAppStatePrepared(appStatePreparedEvent)) {
 			socket.emit('app-state-prepared', appStatePreparedEvent);
 		}
+	}
+
+	function onMessageCreated(event: MessageCreatedEvent) {
+		console.debug(event);
+		event.message.createdAt = new Date(event.message.createdAt);
+		$messages = $messages ? [...$messages, event.message] : [event.message];
 	}
 
 	function onMembersUpdated(event: MembersUpdatedEvent) {
@@ -111,24 +121,24 @@
 		}
 
 		socket.on('prepare-app-state', prepareAppState);
+		socket.on('message-created', onMessageCreated);
 		socket.on('members-updated', onMembersUpdated);
 		socket.on('user-updated', onUserUpdated);
 		socket.on('invalid-data', onInvalidData);
 
-		// Listen to prepare app state if we are an admin user
-		if (userIsAdmin()) {
-		}
 		// Request initial app state if we are not an admin user
-		else {
+		if (!userIsAdmin()) {
 			requestAppState();
 		}
 
 		return () => {
 			socket.off('prepare-app-state', prepareAppState);
+			socket.off('message-created', onMessageCreated);
 			socket.off('members-updated', onMembersUpdated);
 			socket.off('user-updated', onUserUpdated);
 			socket.off('invalid-data', onInvalidData);
 			console.debug(`socket-off:prepare-app-state:${socket.id}`);
+			console.debug(`socket-off:message-created:${socket.id}`);
 			console.debug(`socket-off:members-updated:${socket.id}`);
 			console.debug(`socket-off:user-updated:${socket.id}`);
 			console.debug(`socket-off:invalid-data:${socket.id}`);
@@ -149,7 +159,7 @@
 			<UserPersona />
 		</div>
 	</header>
-	<main class="relative flex-auto flex flex-col w-full max-w-xl gap-4 px-8 pb-8 overflow-hidden">
+	<main class="relative flex-auto flex flex-col w-full max-w-2xl gap-4 px-8 pb-8 overflow-hidden">
 		<Messages />
 		<CreateMessageForm />
 	</main>
