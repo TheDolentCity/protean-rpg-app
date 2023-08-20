@@ -32,11 +32,9 @@ export const ColorSchema = string([
 export const MessageSchema = object({
 	text: string([
 		minLength(1, 'Text must be at least 1 characters'),
-		maxLength(256, 'Text cannot be more than 256 characters.')
+		maxLength(2048, 'Text cannot be more than 2048 characters.')
 	]),
-  createdBy: string([
-    minLength(1, "Created by must not be empty."),
-  ]),
+	createdBy: string([minLength(1, 'Created by must not be empty.')])
 });
 
 export const UserSchema = object({

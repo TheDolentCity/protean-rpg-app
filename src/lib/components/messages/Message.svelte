@@ -2,7 +2,9 @@
 	import { CssBuilder } from '$lib/builders/css-builder';
 	import { members } from '$lib/stores/members-store';
 	import type { User } from '$lib/types/socket-types';
+	import snarkdown from 'snarkdown';
 	import Time from 'svelte-time';
+	import { sanitize } from 'isomorphic-dompurify';
 
 	export let text: string;
 	export let createdAt: Date;
@@ -12,15 +14,17 @@
 	let author: User | undefined;
 	let authorName: string;
 	let color: string;
+	let markdown: string;
 
+	$: markdown = sanitize(snarkdown(text));
 	$: author = $members?.find((user) => user?.id && user.id === createdBy);
 	$: authorName = author?.username ?? 'Unknown user';
 	$: color = author?.color ?? '#00FF00';
 	$: contentCss = new CssBuilder()
-		.addClass('px-3 [overflow-anchor:none] text-base bg-zinc-900')
+		.addClass('prose prose-invert px-5 [overflow-anchor:none] text-base bg-zinc-900')
 		.addClass('py-0.5', !starting && !ending)
-		.addClass('pt-2 pb-0.5 rounded-t-lg', starting)
-		.addClass('pt-0.5 pb-2 rounded-b-lg', ending)
+		.addClass('pt-5 pb-0.5 rounded-t-lg', starting)
+		.addClass('pt-0.5 pb-5 rounded-b-lg', ending)
 		.build();
 </script>
 
@@ -34,5 +38,5 @@
 	</span>
 {/if}
 <div class={contentCss}>
-	<p class="text-focus whitespace-pre-line">{text}</p>
+	{@html markdown}
 </div>

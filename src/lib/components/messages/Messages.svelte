@@ -2,15 +2,14 @@
 	import { onMount } from 'svelte';
 	import { messages } from '$lib/stores/messages-store';
 	import Message from '$lib/components/messages/Message.svelte';
-	import { members } from '$lib/stores/members-store';
 
 	function messagesFarApart(earlierDate: Date, laterDate: Date): boolean {
 		const differenceInMinutes = 5;
 		const differenceInMilliseconds = 60000 * differenceInMinutes;
-		let comparison = earlierDate.getTime();
+		let comparison = earlierDate?.getTime();
 		comparison += differenceInMilliseconds;
 
-		return laterDate.getTime() > comparison;
+		return laterDate?.getTime() > comparison;
 	}
 
 	let container: HTMLElement;
