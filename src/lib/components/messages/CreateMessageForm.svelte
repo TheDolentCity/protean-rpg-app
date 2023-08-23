@@ -17,6 +17,8 @@
 
 		try {
 			text = new DiceRoll(text).output;
+			text = text.replaceAll('[', '{');
+			text = text.replaceAll(']', '}');
 		} catch (error) {
 			console.debug(`Text '${text}' was not a valid dice roll.`);
 		}
